@@ -1,25 +1,49 @@
-# code-review-project-datacamp
-This is my solution to Datacamp's "Performing a Code Review" project.
+# Smartphone Data Analysis: Professional Code Review
+
+This repository contains my solution to the DataCamp "Performing a Code Review" project. 
+
+## 📋 Project Background
+Acting as a **Senior Data Scientist**, I performed a comprehensive code review on a workflow designed for a university procurement team. I refactored a Junior Developer's codebase to ensure it was production-ready, modular, and followed industry best practices.
 
 ---
-  
 
-### **Project Instructions**
+## 🚀 Technical Refactor Summary
+This project involved a comprehensive code review and refactoring of a smartphone data cleaning and visualization workflow. The primary goal was to transition "Junior" level code into a production-ready, maintainable, and well-tested Python module.
 
-- Review the definition of the `prepare_smartphone_data()`  function to ensure the code is well-documented and is easily "readable". Update the existing code to remedy any issues with documentation or readability.
-- Review and update the `prepare_smartphone_data()` function to ensure that it adheres to PEP-8 principles.
-- Review code in the `visualize_versus_price()` function for adherence to DRY principles. Use the `column_to_label()` function to remove any logic that was previously duplicated.
-- Review the unit test written below to ensure the test matches logic in the `prepare_smartphone_data()` function, and make changes as needed. Run the cell to validate the test passes when executed.
+### 🛠️ Key Improvements & Engineering Decisions
+1. **Data Integrity & Memory Management**
+* **Resolved** `SettingWithCopyWarning`: Identified and fixed a common Pandas slice-assignment risk by implementing explicit `.copy()` on filtered DataFrames.
+* **Standardized Units**: Standardized the `price` column by converting values from cents to dollars for intuitive visualization.  
 
----  
-### **Context**
+2. **Clean Code & PEP-8 Standards**
+* **Naming Conventions**: Refactored the entire codebase from `camelCase` to `snake_case` to align with PEP-8 style guidelines.
+* **DRY (Don't Repeat Yourself)**: Eliminated duplicated string manipulation logic by centralizing label formatting within a dedicated `column_to_label` helper function.
 
-"For the past five years, you've honed your skills as a Senior Data Scientist for a global university. Your team leverages its data analytics and machine learning skill sets to help other departments make data-driven decisions. One such department is the procurement team, who is trying to decide the best new mobile phone to offer to the university's employees. For the last week, a Junior Data Scientist on your team has been developing a workflow to help provide insight to the procurement team. You will be reviewing their code to ensure it's ready to ship to production.
+3. **Professional Documentation**
+* **Stale Docstring Correction**: Identified and corrected a "documentation drift" where the docstring incorrectly described a pattern between `avg_rating` and `battery_capacity` while the actual logic compared variables against `price`.
+* **Standardized Formatting**: Updated all docstrings to follow the PEP-257 imperative style, including `:param` and `:return` definitions.
 
-The first chunk of code that you'll be reviewing is your colleague's function to prepare smartphone data from a CSV file for visualization. After ingesting and cleaning the smartphone data, your colleague has prepared a function to plot a variable passed to the function, versus `"price"`. However, within this function, there is code that does not adhere to DRY principles and is copied and pasted. Make sure to refactor the code appropriately, using the `column_to_label()` function defined below.
+4. **Testing & Reliability**
+* **Logic Bug Fix**: Caught and corrected a "double-negative" logic error in the unit tests that was causing valid data to fail assertions.
+* **Migration to Pytest**: Decoupled the testing logic from `ipytest` (notebook-based) to a standard `pytest` suite, making the project compatible with modern CI/CD pipelines.
+* **Module Protection**: Implemented an `if __name__ == "__main__":` block to protect the visualization logic, preventing unintended GUI pop-ups during automated testing runs.
 
-Wow, your colleague even included a unit test to ensure `NaN` values were removed from the cleaned DataFrame! However, it doesn't seem like the unit test is passing when executed. Re-work this unit test to ensure that it matches the transformation logic in the `prepare_smartphone_data()` function.
+### 🧪 Environment & Tools
+* **Language**: Python 3.8+
+* **Libraries**: Pandas, Seaborn, Matplotlib
+* **Testing**: Pytest
+* **Config**: Managed via pyproject.toml and .gitignore
 
-Once you've made changes to the `test_nan_values` unit test, you'll want to ensure that these unit tests execute with `ExitCode.OK`. This means that the `pytest` defined above has passed testing, and the code is one step closer to being to be shipped to production.
+---
 
-For context, there is a print statement in the `prepare_smartphone_data()` function in the first cell of the notebook below that can be used to visualize the dataset your Junior Data Engineer has been working with. Feel free to update this line of code as needed. This can then be removed after the dataset has been investigated. Best of luck!"
+## 📁 Repository Structure
+* `src/smartphone_utils.py`: Contains the refactored data cleaning and visualization functions.
+* `tests/test_smartphones.py`: Standardized Pytest suite for data validation.
+* `data/smartphones.csv`: The raw dataset used for the analysis.
+* `pyproject.toml`: Project configuration and dependency management.
+
+## ⚙️ How to Run
+1. Clone the repository.
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run tests: `pytest`
+4. Run the script: `python src/smartphone_utils.py`
