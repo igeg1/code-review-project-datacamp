@@ -16,13 +16,12 @@ def prepare_smartphone_data(file_path):
     
     # Check if file exists
     if os.path.exists(file_path):
-        rawData = pd.read_csv(file_path)  
-        print(rawData.head())  # TODO: Use this for checking out the dataset, remove before submission
+        raw_data = pd.read_csv(file_path)  
     else:
         raise Exception(f"File containing smartphone data not found at path {file_path}")
 
     # Define and filter columns
-    columns_to_keep_in_clean_data = [
+    columns_to_keep = [
         "brand_name",
         "os",
         "price",
@@ -31,16 +30,15 @@ def prepare_smartphone_data(file_path):
         "battery_capacity",
         "screen_size"
     ]
-    trimmedData=rawData.loc[
-    :, columns_to_keep_in_clean_data]
+    trimmed_data = raw_data[columns_to_keep]
     
     # Remove records without a battery_capacity or os value
-    reducedData=trimmedData.dropna(subset = ["battery_capacity", "os"]).copy()
+    reduced_data = trimmed_data.dropna(subset = ["battery_capacity", "os"]).copy()
     
     # Transform price from cents to dollars 
-    reducedData["price"]=reducedData["price"]/ 100
+    reduced_data["price"] = reduced_data["price"] / 100
 
-    return reducedData
+    return reduced_data
 
 
 # Call the function
