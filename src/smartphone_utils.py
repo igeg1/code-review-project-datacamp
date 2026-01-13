@@ -41,11 +41,6 @@ def prepare_smartphone_data(file_path):
     return reduced_data
 
 
-# Call the function
-cleaned_data = prepare_smartphone_data("./data/smartphones.csv")
-print(cleaned_data.head())
-
-
 def column_to_label(column_name):
     """
     Converts a column name in a pandas DataFrame to a string that can be
@@ -77,8 +72,6 @@ def column_to_label(column_name):
         raise Exception("Please makes sure to pass a value of type 'str'.")
 
 
-print(column_to_label("processor_speed"))
-
 def visualize_versus_price(clean_data, x):
     """
     Visualize the relationship between a specified column and price.
@@ -107,6 +100,9 @@ def visualize_versus_price(clean_data, x):
     # Show the plot
     plt.show()
     
-    
-# Call the visualize_versus_price function
-visualize_versus_price(cleaned_data, "processor_speed")
+
+if __name__ == "__main__": 
+    # Call the function to clean the data
+    cleaned_data = prepare_smartphone_data("./data/smartphones.csv")
+    # Call the function to visualize the data
+    visualize_versus_price(cleaned_data, "processor_speed")
