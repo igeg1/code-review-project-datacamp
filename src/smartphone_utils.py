@@ -5,14 +5,13 @@ import matplotlib.pyplot as plt
 
 def prepare_smartphone_data(file_path):
     """
-    To prepare the smartphone data for visualization, a number of transformations 
-    will be applied after reading in the raw DataFrame to memory, including:
-        - reducing the number of columns to only those needed for later analysis
-        - removing records without a battery_capacity value
-        - divide the price column by 100 to find the dollar amount
-    
-    :param file_path: the file path where the raw smartphone data is stored
-    :return: a cleaned dataset having had the operations above applied to it
+    Prepare smartphone data for visualization.
+
+    Reads a CSV file, cleans missing values in specific columns, 
+    and converts the price to a standard dollar format.
+
+    :param file_path: The path to the raw smartphone CSV data.
+    :return: A cleaned pandas DataFrame.
     """
     
     if os.path.exists(file_path):
