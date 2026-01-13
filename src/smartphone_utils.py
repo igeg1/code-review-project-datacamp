@@ -43,6 +43,7 @@ def prepare_smartphone_data(file_path):
 
 # Call the function
 cleaned_data = prepare_smartphone_data("./data/smartphones.csv")
+print(cleaned_data.head())
 
 
 def column_to_label(column_name):
@@ -63,6 +64,8 @@ def column_to_label(column_name):
         raise Exception("Please makes sure to pass a value of type 'str'.")
 
 
+print(column_to_label("processor_speed"))
+
 def visualize_versus_price(clean_data, x):
     """
     Use seaborn and matplotlib to identify a pattern between avg_rating and 
@@ -73,15 +76,18 @@ def visualize_versus_price(clean_data, x):
     :return: None
     """
     
+    # Create x-label
+    x_label = column_to_label(x)
+
     # Create the scatterplot
     sns.scatterplot(x=x, y="price", data=clean_data, hue="os")
     
     # Add x and y labels
-    plt.xlabel(" ".join(x.split("_")).title())
+    plt.xlabel(x_label)
     plt.ylabel("Price ($)")
     
     # Add a title to the plot
-    plt.title(f"{' '.join(x.split('_')).title()} vs. Price")
+    plt.title(f"{x_label} vs. Price")
 
     # Show the plot
     plt.show()
