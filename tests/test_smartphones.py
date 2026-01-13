@@ -15,4 +15,4 @@ def test_nan_values(clean_smartphone_data):
     
     # Assert there are no NaN value in "battery_capacity" or "os"
     assert clean_smartphone_data["battery_capacity"].isnull().sum() == 0
-    assert not clean_smartphone_data["os"].isnull().sum() == 0
+    assert clean_smartphone_data["os"].isnull().sum() == 0
