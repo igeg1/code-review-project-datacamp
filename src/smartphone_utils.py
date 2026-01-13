@@ -51,8 +51,21 @@ def column_to_label(column_name):
     Converts a column name in a pandas DataFrame to a string that can be
     used as a label in a plot.
     
-    :param column_name: string containing original column name
-    :return: string that is ready to be presented on a plot
+    :param column_name: string containing original column name.
+    :return: string that is ready to be presented on a plot.
+    """
+
+    """
+    Convert a snake_case column name into a title-cased plotting label.
+
+    :param column_name: String containing the original column name (e.g., from a DataFrame).
+    :return: A string formatted with spaces instead of underscores and title casing.
+    :raises TypeError/Exception: If the input provided is not a string.
+
+    >>> column_to_label("price")
+    'Price'
+    >>> column_to_label("processor_speed")
+    'Processor Speed'
     """
     
     # Validate that column_name is a string
@@ -68,11 +81,13 @@ print(column_to_label("processor_speed"))
 
 def visualize_versus_price(clean_data, x):
     """
-    Use seaborn and matplotlib to identify a pattern between avg_rating and 
-    battery_capacity.
+    Visualize the relationship between a specified column and price.
     
-    :param clean_data: a pandas DataFrame containing cleaned smartphone data
-    :param x: variable to be plotted on the x-axis
+    Uses a seaborn scatterplot to plot the 'x' variable against 'price',
+    colored by the operating system ('os').
+    
+    :param clean_data: A pandas DataFrame containing cleaned smartphone data.
+    :param x: The name of the column to be plotted on the x-axis.
     :return: None
     """
     
