@@ -5,23 +5,23 @@ import matplotlib.pyplot as plt
 
 def prepare_smartphone_data(file_path):
     """
-    To prepare the smartphone data for visualization, a number of transformations 
-    will be applied after reading in the raw DataFrame to memory, including:
-        - reducing the number of columns to only those needed for later analysis
-        - removing records without a battery_capacity value
-        - divide the price column by 100 to find the dollar amount
-    
-    :param file_path: the file path where the raw smartphone data is stored
-    :return: a cleaned dataset having had the operations above applied to it
+    Prepare smartphone data for visualization.
+
+    Reads a CSV file, cleans missing values in specific columns, 
+    and converts the price to a standard dollar format.
+
+    :param file_path: The path to the raw smartphone CSV data.
+    :return: A cleaned pandas DataFrame.
     """
     
+    # Check if file exists
     if os.path.exists(file_path):
-        rawData = pd.read_csv(file_path)
-        print(rawData.head())  # TODO: Use this for checking out the dataset, remove before submission
+        raw_data = pd.read_csv(file_path)  
     else:
         raise Exception(f"File containing smartphone data not found at path {file_path}")
 
-    columns_to_keep_in_clean_data = [
+    # Define and filter columns
+    columns_to_keep = [
         "brand_name",
         "os",
         "price",
@@ -30,22 +30,15 @@ def prepare_smartphone_data(file_path):
         "battery_capacity",
         "screen_size"
     ]
-    trimmedData=rawData.loc[
-    :, columns_to_keep_in_clean_data]
+    trimmed_data = raw_data[columns_to_keep]
     
-    # Remove records without a battery_capacity value
-    reducedData=trimmedData.dropna(subset = ["battery_capacity", "os"])
+    # Remove records without a battery_capacity or os value
+    reduced_data = trimmed_data.dropna(subset=["battery_capacity", "os"]).copy()
     
-    
-    
-    # Divide the price column by 100 to find the dollar amount
-    reducedData["price"]=reducedData["price"]/ 100
-    
-    return reducedData
+    # Transform price from cents to dollars 
+    reduced_data["price"] = reduced_data["price"] / 100
 
-
-# Call the function
-cleaned_data = prepare_smartphone_data("./data/smartphones.csv")
+    return reduced_data
 
 
 def column_to_label(column_name):
@@ -53,8 +46,21 @@ def column_to_label(column_name):
     Converts a column name in a pandas DataFrame to a string that can be
     used as a label in a plot.
     
-    :param column_name: string containing original column name
-    :return: string that is ready to be presented on a plot
+    :param column_name: string containing original column name.
+    :return: string that is ready to be presented on a plot.
+    """
+
+    """
+    Convert a snake_case column name into a title-cased plotting label.
+
+    :param column_name: String containing the original column name (e.g., from a DataFrame).
+    :return: A string formatted with spaces instead of underscores and title casing.
+    :raises TypeError/Exception: If the input provided is not a string.
+
+    >>> column_to_label("price")
+    'Price'
+    >>> column_to_label("processor_speed")
+    'Processor Speed'
     """
     
     # Validate that column_name is a string
@@ -68,24 +74,35 @@ def column_to_label(column_name):
 
 def visualize_versus_price(clean_data, x):
     """
-    Use seaborn and matplotlib to identify a pattern between avg_rating and 
-    battery_capacity.
+    Visualize the relationship between a specified column and price.
     
-    :param clean_data: a pandas DataFrame containing cleaned smartphone data
-    :param x: variable to be plotted on the x-axis
+    Uses a seaborn scatterplot to plot the 'x' variable against 'price',
+    colored by the operating system ('os').
+    
+    :param clean_data: A pandas DataFrame containing cleaned smartphone data.
+    :param x: The name of the column to be plotted on the x-axis.
     :return: None
     """
     
+    # Create x-label
+    x_label = column_to_label(x)
+
     # Create the scatterplot
     sns.scatterplot(x=x, y="price", data=clean_data, hue="os")
     
     # Add x and y labels
-    plt.xlabel(" ".join(x.split("_")).title())
+    plt.xlabel(x_label)
     plt.ylabel("Price ($)")
     
     # Add a title to the plot
-    plt.title(f"{' '.join(x.split('_')).title()} vs. Price")
+    plt.title(f"{x_label} vs. Price")
+
+    # Show the plot
+    plt.show()
     
-    
-# Call the visualize_versus_price function
-visualize_versus_price(cleaned_data, "processor_speed")
+
+if __name__ == "__main__": 
+    # Call the function to clean the data
+    cleaned_data = prepare_smartphone_data("./data/smartphones.csv")
+    # Call the function to visualize the data
+    visualize_versus_price(cleaned_data, "processor_speed")
