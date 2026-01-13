@@ -33,7 +33,7 @@ def prepare_smartphone_data(file_path):
     trimmed_data = raw_data[columns_to_keep]
     
     # Remove records without a battery_capacity or os value
-    reduced_data = trimmed_data.dropna(subset = ["battery_capacity", "os"]).copy()
+    reduced_data = trimmed_data.dropna(subset=["battery_capacity", "os"]).copy()
     
     # Transform price from cents to dollars 
     reduced_data["price"] = reduced_data["price"] / 100
