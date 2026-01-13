@@ -14,12 +14,14 @@ def prepare_smartphone_data(file_path):
     :return: A cleaned pandas DataFrame.
     """
     
+    # Check if file exists
     if os.path.exists(file_path):
         rawData = pd.read_csv(file_path)  
         print(rawData.head())  # TODO: Use this for checking out the dataset, remove before submission
     else:
         raise Exception(f"File containing smartphone data not found at path {file_path}")
 
+    # Define and filter columns
     columns_to_keep_in_clean_data = [
         "brand_name",
         "os",
@@ -32,15 +34,12 @@ def prepare_smartphone_data(file_path):
     trimmedData=rawData.loc[
     :, columns_to_keep_in_clean_data]
     
-    # Remove records without a battery_capacity value
+    # Remove records without a battery_capacity or os value
     reducedData=trimmedData.dropna(subset = ["battery_capacity", "os"]).copy()
     
-    
-    
-    # Divide the price column by 100 to find the dollar amount
+    # Transform price from cents to dollars 
     reducedData["price"]=reducedData["price"]/ 100
 
-    
     return reducedData
 
 
